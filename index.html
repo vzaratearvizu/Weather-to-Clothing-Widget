@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <!--User Interface Styling-->
+  <style>
+    #close-btn {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      cursor: pointer;
+      -webkit-app-region: no-drag;
+    }
+
+    body {
+      overflow: hidden;
+      margin: 0;
+      padding: 0;
+    }
+
+    ::-webkit-scrollbar {
+      display: none;
+    }
+
+    #hourly {
+      -webkit-app-region: no-drag;
+      height: 100vh;
+      overflow: hidden;
+      cursor: grab;
+      user-select: none;
+      scrollbar-width: none;
+    }
+
+    #hourly::-webkit-scrollbar {
+      display: none;
+    }
+
+    #drag-handle {
+      -webkit-app-region: drag;
+      height: 20px;
+      width: 100%;
+      position: absolute;
+      top: 0;
+      left: 0;
+      background-color: blue;
+    }
+  </style>
+</head>
+
+<!--User Interface Implementation-->
+
+<body>
+  <div id="drag-handle"></div>
+  <button id="close-btn" onclick="window.close()">X</button>
+  <div id="hourly"></div>
+  <!--Script Loaders-->
+  <script src="weather.js"></script>
+</body>
+
+</html>

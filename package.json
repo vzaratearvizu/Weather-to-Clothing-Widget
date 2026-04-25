@@ -1,0 +1,15 @@
+{
+  "name": "weather-widget",
+  "version": "1.0.0",
+  "description": "Weather Widget ",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "devDependencies": {
+    "electron": "^29.0.0"
+  },
+  "dependencies": {
+    "cheerio": "^1.2.0"
+  }
+}
