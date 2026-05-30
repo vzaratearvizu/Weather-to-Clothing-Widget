@@ -33,7 +33,7 @@ function scrapeNWSTable(callback) {
     res.on('data', chunk => html += chunk);
     res.on('end', () => {
       const $ = cheerio.load(html);
-      let hours = [], temps = [], winds = [], gusts = [];
+      let hours = [], temps = [], winds = [], gusts = [], rainChance = [], skyCover = [];
 
       $('tr').each((i, row) => {
         const firstCell = $(row).find('td').first().text().trim();
@@ -46,9 +46,11 @@ function scrapeNWSTable(callback) {
         if (firstCell.includes('Temp') && values.length > 0 && temps.length === 0) temps = values;
         if (firstCell.includes('Wind') && firstCell.includes('Surface') && values.length > 0 && winds.length === 0) winds = values;
         if (firstCell.includes('Gust') && values.length > 0 && gusts.length === 0) gusts = values;
+        if (firstCell.includes('Precipitation') && firstCell.includes('Potential') && values.length > 0 && rainChance.length === 0) rainChance = values;
+        if (firstCell.includes('Sky') && values.length > 0 && skyCover.length === 0) skyCover = values;
       });
 
-      callback({ hours, temps, winds, gusts });
+      callback({ hours, temps, winds, gusts, rainChance, skyCover});
     });
   }).on('error', err => console.log('Scrape Error:', err.message));
 }
@@ -114,10 +116,10 @@ function fetchGridData(periods, hours, callback) {
 
 // Orchestrates all fetches and sends data to renderer
 function fetchWeather() {
-  scrapeNWSTable(({ hours, temps, winds, gusts }) => {
+  scrapeNWSTable(({ hours, temps, winds, gusts, rainChance, skyCover }) => {
     fetchForecasts(hours, (periods, forecasts) => {
       fetchGridData(periods, hours, ({ feelsLike, precip }) => {
-        wind.webContents.send('weather-data', { hours, temps, winds, gusts, forecasts, feelsLike, precip });
+        wind.webContents.send('weather-data', { hours, temps, winds, gusts, forecasts, feelsLike, precip, rainChance, skyCover });
       });
     });
   });
@@ -127,7 +129,6 @@ app.whenReady().then(() => {
   createWindow();
   fetchWeather();
   app.setLoginItemSettings({
-    openAtLogin: true,
     path: process.execPath,
     args: [app.getAppPath()]
   });

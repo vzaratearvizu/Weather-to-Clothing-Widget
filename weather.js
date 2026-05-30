@@ -16,9 +16,9 @@ function getOutfit(feelsLike, forecast, gust) {
 
   if (feelsLike <= 44) {
     outfit = 'Thick Jacket';
-  } else if (feelsLike <= 50) {
+  } else if (feelsLike <= 61) {
     outfit = 'Medium Jacket/Sweater';
-  } else if (feelsLike <= 65) {
+  } else if (feelsLike <= 68) {
     outfit = 'Thin hoodie';
   } else {
     outfit = 'T-shirt';
@@ -67,10 +67,21 @@ function buildHourlyHTML(data) {
     const gust = data.gusts[i];
     const precip = data.precip[i];
     const precipIn = (precip * 0.0394).toFixed(2);
+    const rain = data.rainChance[i];
+    const sky = data.skyCover[i];
+
+    let forecastText = forecast;
+    if (rain >= 80) forecastText = 'Rain';
+    else if (rain >= 50) forecastText = 'Chance Rain Showers';
+    else if (rain >= 20) forecastText = 'Slight Chance Rain Showers';
+    else if (sky >= 90) forecastText = 'Cloudy';
+    else if (sky >= 60) forecastText = 'Mostly Cloudy';
+    else if (sky >= 30) forecastText = 'Partly Cloudy';
+    else forecastText = 'Sunny';
 
     const timeStr = getTimeString(hour);
-    const outfit = getOutfit(feelsLike, forecast, gust);
-    const bgColor = getForecastColor(forecast);
+    const outfit = getOutfit(feelsLike, forecastText, gust);
+    const bgColor = getForecastColor(forecastText);
 
     if (hour === 0 && !crossedMidnight && i > 0) {
       crossedMidnight = true;
@@ -83,7 +94,7 @@ function buildHourlyHTML(data) {
         <div style="width: 70%; text-align: center;">
           <div style="font-weight: bold; font-size: 16px;">${timeStr}</div>
           <div>Feels like ${feelsLike}\u00B0F | ${temp}\u00B0F</div>
-          <div>${forecast}</div>
+          <div>${forecastText}</div>
           <div>Wind: ${windSpeed} mph${gust ? ', Gusts: ' + gust + ' mph' : ''}</div>
         </div>
       </div>`;

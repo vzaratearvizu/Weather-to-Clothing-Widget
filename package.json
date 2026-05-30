@@ -1,15 +1,23 @@
 {
   "name": "weather-widget",
   "version": "1.0.0",
-  "description": "Weather Widget ",
+  "description": "Weather Widget",
   "main": "main.js",
   "scripts": {
-    "start": "electron ."
+    "start": "electron .",
+    "build": "electron-builder"
   },
   "devDependencies": {
-    "electron": "^29.0.0"
+    "electron": "^29.0.0",
+    "electron-builder": "^24.0.0"
   },
   "dependencies": {
     "cheerio": "^1.2.0"
+  },
+  "build": {
+    "appId": "com.victor.weatherwidget",
+    "win": {
+      "target": "nsis"
+    }
   }
 }
