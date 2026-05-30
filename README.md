@@ -1,4 +1,4 @@
-# Weather Clothes
+# Weather-to-Clothing-Widget
 
 A Windows desktop weather widget that shows hourly forecasts for Boston and recommends what to wear based on the feels-like temperature, precipitation, and wind conditions. Especially useful for not having to guesstimate what to wear or bring when away from home for a majority of the day.
 
